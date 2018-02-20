@@ -14,7 +14,7 @@ public class E2188 {
 	
 	static int cow, shed;
 	
-	static int[] cowSide, shedSide, dist;
+	static int[] shedSide, dist;
 	static boolean[] used;
 	static List<int[]> list;
 	static final int INF = 100000;
@@ -42,12 +42,10 @@ public class E2188 {
 		
 		int match = 0;
 		
-		cowSide = new int[cow];
 		shedSide = new int[shed];
 		used = new boolean[cow];
 		dist = new int[cow];
 		
-		Arrays.fill(cowSide, -1);
 		Arrays.fill(shedSide, -1);
 		
 		while(true) {
@@ -97,7 +95,6 @@ public class E2188 {
 		for(int b : list.get(a)) {
 			if(shedSide[b] == -1 || dist[shedSide[b]] == dist[a] + 1 && dfs(shedSide[b])) {
 				used[a] = true;
-				cowSide[a] = b;
 				shedSide[b] = a;
 				return true;
 			}
