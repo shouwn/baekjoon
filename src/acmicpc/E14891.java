@@ -6,225 +6,147 @@ import java.util.Scanner;
 public class E14891 {
 
 	public static void main(String[] args) {
-
 		Scanner scan = new Scanner(System.in);
-
-		HashMap<Integer, SawWheel> sawMap = new HashMap<>(4);
-
 		String input = scan.nextLine();
+		HashMap<Integer, Node> nodeMap = new HashMap<>(4);
 		int[] temp = new int[8];
 
-		for(int i = 0; i < input.length(); i++) {
-			if(input.charAt(i) == '1')
-				temp[i] = 1;
-			else
-				temp[i] = 0;
-		}
+		for(int i = 0; i < 8; i++) 
+			temp[i] = input.charAt(i) == '1' ? 1 : 0;
 
-		SawWheel wheel = new SawWheel(0, new MyCircularQueue(temp));
-		sawMap.put(0, wheel);
-
-		for(int k = 1; k < 4; k++) {
+		nodeMap.put(0, new Node(null, null, 0, temp));
+		
+		for(int i = 1; i < 4; i++) {
 			input = scan.nextLine();
 			temp = new int[8];
-
-			for(int i = 0; i < input.length(); i++) {
-				if(input.charAt(i) == '1')
-					temp[i] = 1;
-				else
-					temp[i] = 0;
+			
+			for(int k = 0; k < 8; k++) {
+				temp[k] = input.charAt(k) == '1' ? 1 : 0;
 			}
-
-			wheel = new SawWheel(k, new MyCircularQueue(temp));
-
-			SawWheel pre = sawMap.get(k - 1);
-			pre.right = wheel;
-			wheel.left = pre;
-
-			sawMap.put(k, wheel);
+			Node tempNode = nodeMap.get(i - 1);
+			Node current = new Node(tempNode, null, i, temp); 
+			tempNode.right = current;
+			nodeMap.put(i, current);
+			
 		}
-
+		
 		int count = scan.nextInt();
-
+		
 		for(int i = 0; i < count; i++) {
-			sawMap.get(scan.nextInt() - 1).rotate(scan.nextInt());
+			nodeMap.get(scan.nextInt() - 1).rotate(scan.nextInt());
 		}
-
-		System.out.println(sawMap);
-
-		System.out.println(sawMap.get(0).getScore());
+		
+		System.out.println(nodeMap.get(0).score());
 
 		scan.close();
 
 	}
 
-
-
 }
 
-class SawWheel{
-
-	public static final int CLOCKWISE = 1;
-	public static final int C_CLOCKWISE = 0; // counterclockwise
-	public static final int STOP = -1;
-
-	//magnet
-	public static final int N = 0;
-	public static final int S = 1;
-
-	public static final int RIGHT = 1;
-	public static final int LEFT = -1;
-
+class Node{
+	
 	int id;
-	SawWheel right;
-	SawWheel left;
-	MyCircularQueue cQueue;
 
-	public SawWheel(int id, MyCircularQueue cQueue) {
+	static final int CLOCK = 1;
+	static final int C_CLOCK = -1;
+	static final int STOP = 0;
+
+	static final int RIGHT = 1;
+	static final int LEFT = -1;
+
+	Node left;
+	Node right;
+	Wheel wheel;
+
+	public Node(Node left, Node right, int id, int[] arr) {
+		this.left = left;
+		this.right = right;
+		wheel = new Wheel(arr);
 		this.id = id;
-		this.cQueue = cQueue;
 	}
 
-	public void rotate(int rotate) {
-		rotate(this.right, LEFT, rotate);
-		rotate(this.left, RIGHT, rotate);
-		System.out.println("wheel " + id + " rotate " + rotate);
-		this.cQueue.rotate(rotate);
+	public void rotate(int dir) {
+
+		rotate(left, RIGHT, dir);
+		rotate(right, LEFT, dir);
+		wheel.rotate(dir);
 	}
 
-	private static void rotate(SawWheel wheel, int side, int rotate) {
-
-		if(wheel == null || rotate == STOP)
+	private static void rotate(Node current, int from, int dir) {
+		if(dir == STOP || current == null)
 			return;
-		System.out.println("wheel " + wheel.id + " rotate " + rotate);
 
-		if(side == RIGHT) {
-			if(wheel.right.cQueue.findt9() != wheel.cQueue.find3()) {
-				rotate(wheel.left, side, counter(rotate));
-				wheel.cQueue.rotate(rotate);
-			}
+		int currentDir = STOP;
+		Node next = null;
+		
+		if(from == RIGHT) {
+			next = current.left;
+			if(current.right.wheel.get(Wheel.WEST) != current.wheel.get(Wheel.EAST)) 
+				currentDir = counter(dir);
+			
 		}
 		else {
-			if(wheel.left.cQueue.findt9() != wheel.cQueue.find3()) {
-				rotate(wheel.right, side, counter(rotate));
-				wheel.cQueue.rotate(rotate);
-			}
+			next = current.right;
+			if(current.left.wheel.get(Wheel.EAST) != current.wheel.get(Wheel.WEST))
+				currentDir = counter(dir);
 		}
-	}
+		
+		rotate(next, from, currentDir);
 
-	private static int counter(int rotate) {
-		if(rotate == CLOCKWISE)
-			return C_CLOCKWISE;
-		if(rotate == C_CLOCKWISE)
-			return CLOCKWISE;
+		current.wheel.rotate(currentDir);
 
-		return STOP;
-	}
-
-	public int getScore() {
-		return getScore(this);
-	}
-
-	private static int getScore(SawWheel wheel) {
-
-		if(wheel.right == null)
-			return wheel.score();
-
-		return wheel.score() + getScore(wheel.right);
 	}
 
 	public int score() {
-		int result = 0;
-
-		if(cQueue.find12() == 1)
-			result = (int) Math.pow(2, id);
-
-		return result;
+		return score(this);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SawWheel other = (SawWheel) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "SawWheel [" + score() + "]";
-	}
-
-
-
-}
-
-class MyCircularQueue{
-
-	public static final int CLOCKWISE = 1;
-	public static final int C_CLOCKWISE = 0; // counterclockwise
-	public static final int STOP = -1;
-
-	int size;
-	int[] arr;
-
-	int up = 0, left = 6, right = 2;
-
-	public MyCircularQueue(int[] arr) {
-		this.arr = arr;
-		size = arr.length;
-	}
-
-	public int find12() {
-		return arr[up];
-	}
-
-	public int findt9() {
-		return arr[left];
-	}
-
-	public int find3() {
-		return arr[right];
-	}
-
-	public int rotate(int wise) {
-		if(wise == STOP)
+	private static int score(Node node) {
+		if(node == null)
 			return 0;
+		
+		int result = (node.wheel.get(Wheel.NORTH) == 1 ? ((int) Math.pow(2, node.id)) : 0);
+		
+		return result + score(node.right);
+	}
 
-		if(wise == CLOCKWISE) 
-			return cClockwise();
+
+	public static int counter(int dir) {
+		if(dir == CLOCK)
+			return C_CLOCK;
 		else
-			return clockwise();
+			return CLOCK;
 	}
+	
+	class Wheel{
 
-	public int clockwise() {
-		up = (up + size - 1) % size;
-		left = (left + size - 1) % size;
-		right = (right + size - 1) % size;
+		int top = 0;
 
-		return CLOCKWISE;
+		static final int NORTH = 0;
+		static final int EAST = 90;
+		static final int WEST = 270;
+
+		int[] arr;
+
+		public Wheel(int[] arr) {
+			this.arr = arr;
+		}
+
+		public void rotate(int dir) {
+			if(dir == STOP)
+				return;
+			
+			if(dir == C_CLOCK) 
+				top = (top + 45) % 360;
+			else
+				top = (top + 360 - 45) % 360;
+			
+		}
+
+		public int get(int degree) {
+			return arr[((degree + top) % 360) / 45];
+		}
+		
 	}
-
-	public int cClockwise() {
-		up %= size;
-		left %= left;
-		right %= right;
-
-		return C_CLOCKWISE;
-	}
-
 }
