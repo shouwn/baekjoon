@@ -11,7 +11,9 @@ public class Test0_1{
 		
 		arr[3] = true;
 		
-		System.out.println(arr[-1]);
+		String s = "1";
+		
+		System.out.println(s.split(" ")[1]);
 		
 	}
 }
