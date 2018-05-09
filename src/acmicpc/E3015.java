@@ -1,15 +1,14 @@
 package acmicpc;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class E3015 {
 
 	public static void main(String[] args) throws IOException {
-		long time = System.currentTimeMillis();
 		try(BufferedReader reader = new BufferedReader(
-				new FileReader("F:\\Desktop\\test_data\\patrik\\patrik.in.8"))){
+				new InputStreamReader(System.in))){
 
 			int max = Integer.valueOf(reader.readLine());
 
@@ -34,13 +33,12 @@ public class E3015 {
 			}
 			System.out.println(count);
 		}
-		System.out.println(System.currentTimeMillis() - time);
 	}
 
 	public static int findIndexOfAbove(int s, int[] a, int start, int end) {
 
 		if(start < end) {
-			int middle = start + end;
+			int middle = (start + end) / 2;
 
 			if(a[middle] > s) 
 				return findIndexOfAbove(s, a, middle + 1, end);
