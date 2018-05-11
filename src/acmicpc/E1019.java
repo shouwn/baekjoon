@@ -17,12 +17,14 @@ public class E1019 {
 
 			input = reader.readLine();
 		}
+		long time = System.currentTimeMillis();
 		
 		int len = input.length();
 		count = new Count();
 		for(int i = 1; i < len; i++)
 			count.addOnlyZero(-(len - i) * (long)Math.pow(10, i - 1) * 9);
 		System.out.println(count.sum(stepThree(input)));
+		System.out.println(System.currentTimeMillis() - time + "MS");
 	}
 
 	// return e.g.) counted 001 ~ 999, 000
