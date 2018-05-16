@@ -7,13 +7,12 @@ public class Test0_1{
 
 	public static void main(String[] args) throws Exception{
 		
-		boolean[] arr = new boolean[4];
+		int sum = 0;
+		int i;
+		for(i = 1; sum + i < 10000; i++)
+			sum += i;
 		
-		arr[3] = true;
-		
-		String s = "1";
-		
-		System.out.println(s.split(" ")[1]);
+		System.out.println(sum + " " + i);
 		
 	}
 }
