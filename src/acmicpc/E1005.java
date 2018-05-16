@@ -4,72 +4,91 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+class Vertex{
+	int time;
+	int beforeTime;
+	int parentCount;
+	List<Vertex> children = new ArrayList<>();
+	
+	public Vertex(int time) { 
+		this.time = time;
+	}
+	
+	public void addChildVertex(Vertex child) {
+		children.add(child);
+		child.parentCount++;
+	}
+	
+	public int getTotalTime() {
+		return time + beforeTime;
+	}
+	
+	public void setBeforeTime(Vertex before) {
+	
+		if(before.getTotalTime() > beforeTime)
+			this.beforeTime = before.getTotalTime();
+	}
+
+	@Override
+	public String toString() {
+		return "" + getTotalTime();
+	}
+}
 
 public class E1005 {
 	
 	public static void main(String[] args) throws IOException {
+		solution();
+		
+	}
 	
+	public static void solution() throws IOException {
+		Vertex[] V = null;
+		
 		try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
-			Map<Integer, MyNode> map;
 			int count = Integer.valueOf(reader.readLine());
 			
 			for(int i = 0; i < count; i++) {
-				map = new HashMap<>();
 				
 				String[] input = reader.readLine().split(" ");
 				
-				int nodeCount = Integer.valueOf(input[0]);
-				int linkCount = Integer.valueOf(input[1]);
+				int VCount = Integer.valueOf(input[0]);
+				int ECount = Integer.valueOf(input[1]);
 				
 				input = reader.readLine().split(" ");
-				for(int j = 0; j < nodeCount; j++)
-					map.put(j + 1, new MyNode(Integer.valueOf(input[j])));
+				V = new Vertex[VCount];
+				for(int j = 0; j < VCount; j++)
+					V[j] = new Vertex(Integer.valueOf(input[j]));
 				
-				for(int j = 0; j < linkCount; j++) {
+				for(int j = 0; j < ECount; j++) {
 					input = reader.readLine().split(" ");
-					int left = Integer.valueOf(input[0]);
-					int right = Integer.valueOf(input[1]);
 					
-					map.get(left).nexts.add(map.get(right));
-					map.get(left).update();
+					int parent = Integer.valueOf(input[0]) - 1;
+					int child = Integer.valueOf(input[1]) - 1;
+					V[parent].addChildVertex(V[child]);
 				}
 				
-				System.out.println("result " + map.get(Integer.valueOf(reader.readLine())));
+				int w = Integer.valueOf(reader.readLine()) - 1;
+				Vertex result = V[w];
+				for(int j = 0; j < V.length; j++) {
+					for(int k = 0; k < V.length; k++) {
+						if(V[k] != null && V[k].parentCount == 0) {
+							
+							//System.out.println("V[" + k + "]: " + V[k] + " w: " + w);
+							
+							for(Vertex v : V[k].children) {
+								v.setBeforeTime(V[k]);
+								v.parentCount--;
+							}
+							V[k] = null;
+						}
+					}
+				}
+				System.out.println(result);
 			}
 		}
 	}
 
-}
-
-class MyNode {
-	int my;
-	int from;
-	List<MyNode> nexts;
-	
-	public MyNode(int my) {
-		this.my = my;
-		nexts = new ArrayList<>();
-	}
-	
-	public int getTime() {
-		return my + from;
-	}
-	
-	public void update() {
-		
-		for(MyNode node : this.nexts) {
-			if(this.getTime() > node.from)
-				node.from = this.getTime();
-
-			node.update();
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return "" + getTime();
-	}
 }
