@@ -33,15 +33,11 @@ public class E1005 {
 					int left = Integer.valueOf(input[0]);
 					int right = Integer.valueOf(input[1]);
 					
-					map.get(left).next = map.get(right);
+					map.get(left).nexts.add(map.get(right));
 					map.get(left).update();
 				}
 				
 				System.out.println("result " + map.get(Integer.valueOf(reader.readLine())));
-				System.out.println("3: " + map.get(3));
-				System.out.println("4: " + map.get(4));
-				System.out.println("5: " + map.get(5));
-				System.out.println("6: " + map.get(6));
 			}
 		}
 	}
@@ -62,13 +58,14 @@ class MyNode {
 		return my + from;
 	}
 	
-	public static void update(MyNode current, MyNode next) {
+	public void update() {
 		
-		for(MyNode node : current.nexts)
-			if(current.getTime() > node.from)
-				next.from = current.getTime();
-		
-		next.update();
+		for(MyNode node : this.nexts) {
+			if(this.getTime() > node.from)
+				node.from = this.getTime();
+
+			node.update();
+		}
 	}
 	
 	@Override
