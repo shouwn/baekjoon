@@ -6,22 +6,18 @@ import java.util.Scanner;
 
 public class E1699 {
 	
-	static Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+	static Map<Integer, Integer> map = new HashMap<>();
 	
 	public static void main(String[] args) {
 		try(Scanner scan = new Scanner(System.in)) {
 			int input = scan.nextInt();
-			System.out.println(count(input, input));
+			System.out.println(count(input));
 		}
 	}
 	
-	public static int count(int n, int before) {
-		if(map.containsKey(n)) {
-			if(map.get(n).containsKey(before))
-				return map.get(n).get(before);
-		}
-		else
-			map.put(n, new HashMap<>());
+	public static int count(int n) {
+		if(map.containsKey(n))
+			return map.get(n);
 		
 		if(n == 1)
 			return 1;
@@ -32,13 +28,13 @@ public class E1699 {
 		
 		int min = Integer.MAX_VALUE - 1; // 오버 플로우 방지
 		
-		for(int i = middle; i >= 1 && i <= before ; i--) {
-			int temp = 1 + count(n - (int)Math.pow(i, 2), i);
+		for(int i = middle; i >= 1; i--) {
+			int temp = 1 + count(n - (int)Math.pow(i, 2));
 			if(temp < min)
 				min = temp;
 		}
 		
-		map.get(n).put(before, min);
+		map.put(n, min);
 		return min;
 	}
 }
