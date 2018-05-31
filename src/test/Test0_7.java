@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -107,18 +108,8 @@ public class Test0_7 {
 	}
 
 	public static long getAverage(long[] arr) {
-		
-		long sum = 0;
-		for(int i = 0; i < arr.length; i++) {
-			sum += arr[i];
-		}
-		
-		return sum / arr.length;
-		
-		/*
 		return Arrays.stream(arr)
 				.reduce((pre, cur) -> pre + cur)
 				.orElse(0) / arr.length;
-				*/
 	}
 }
