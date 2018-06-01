@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class Test0_7 {
@@ -106,10 +107,27 @@ public class Test0_7 {
 			i++;
 		}
 	}
+	
+	static class MyTimeChecker implements Runnable{
 
-	public static long getAverage(long[] arr) {
-		return Arrays.stream(arr)
-				.reduce((pre, cur) -> pre + cur)
-				.orElse(0) / arr.length;
+		private long[] time = new long[10];
+		private Consumer<Integer> consumer;
+		
+		public MyTimeChecker(long[] time, Consumer<Integer> consumer) {
+			this.time = time;
+			this.consumer = consumer;
+		}
+		
+		public long getAverage() {
+			return Arrays.stream(time)
+					.reduce((pre, cur) -> pre + cur)
+					.orElse(0) / time.length;
+		}
+
+		@Override
+		public void run() {
+			
+		}
+		
 	}
 }
