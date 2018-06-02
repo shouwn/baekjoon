@@ -1,4 +1,4 @@
-package lineSummerIntern;
+package lq;
 
 public class Q4 {
 	public static void main(String[] args) {

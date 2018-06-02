@@ -1,4 +1,4 @@
-package lineSummerIntern;
+package lq;
 
 public class Q5 {
 	static int maxSize;

@@ -1,4 +1,4 @@
-package lineSummerIntern;
+package lq;
 
 import java.io.BufferedReader;
 import java.io.IOException;
