@@ -1,32 +1,42 @@
 package test;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class MyTimeChecker implements Runnable{
+public class MyTimeChecker{
 
-	private long[] time = new long[10];
-	private Consumer<Integer> consumer;
+	private int count;
+	private long[] times;
+	private TestCase test;
 	
-	public MyTimeChecker(int time, Consumer<Integer> consumer) {
-		this.time = new long[time];
-		this.consumer = consumer;
+	public MyTimeChecker() {
+		this.count = 10;
+		this.times = new long[10];
 	}
 	
+	public MyTimeChecker(int count) {
+		this.count = count;
+		this.times = new long[count];
+	}
+	
+	public void setTest(TestCase test) {
+		this.test = test;
+	}
+
 	public long getAverage() {
-		return Arrays.stream(time)
+		return - Arrays.stream(times)
 				.reduce((pre, cur) -> pre + cur)
-				.orElse(0) / time.length;
+				.orElse(0) / count;
 	}
 
-	@Override
-	public void run() {
+	public void check() {
+		Stream<Integer> stream = Stream.iterate(0, n -> n + 1).limit(count);
 		
-		Consumer<Integer> con = 
-		
-		Stream.iterate(0, n -> n+1).limit(time.length)
-			.forEach();
+		stream.forEach(
+				(i) -> {
+					times[i] = System.currentTimeMillis();
+					test.test();
+					times[i] -= System.currentTimeMillis();
+				});
 	}
-	
 }
