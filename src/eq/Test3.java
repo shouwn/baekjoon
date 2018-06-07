@@ -1,6 +1,5 @@
 package eq;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,10 +61,6 @@ public class Test3 {
     	
     	return list.toArray(new String[0]);
     	
-    }
-    
-
-    public static void main(String[] args) throws IOException {
     }
 	
 }
