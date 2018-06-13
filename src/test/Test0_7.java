@@ -22,7 +22,7 @@ public class Test0_7 {
 		LinkedList<Integer> linkedList = new LinkedList<>();
 
 		long eachTestTime;
-		
+
 		Thread arr, link;
 
 		long[][][] testTime = new long[2][3][10];
@@ -33,7 +33,7 @@ public class Test0_7 {
 				(time) -> {
 					testTime[ARRAY][ADD][time] = System.currentTimeMillis();
 					Stream.iterate(0, n -> n+1).limit(SIZE).
-						forEach((j) -> arrayList.add(j));
+					forEach((j) -> arrayList.add(j));
 					testTime[ARRAY][ADD][time] -= System.currentTimeMillis();
 				}));
 
@@ -41,10 +41,10 @@ public class Test0_7 {
 				(time) -> {
 					testTime[LINKED][ADD][time] = System.currentTimeMillis();
 					Stream.iterate(0, n -> n+1).limit(SIZE)
-						.forEach((j) -> linkedList.add(j));
+					.forEach((j) -> linkedList.add(j));
 					testTime[LINKED][ADD][time] -= System.currentTimeMillis();
 				}));
-		
+
 		arr.start(); link.start();
 		eachTestTime = System.currentTimeMillis();
 		arr.join(); link.join();
@@ -55,7 +55,7 @@ public class Test0_7 {
 				(time) -> {
 					testTime[ARRAY][FIND][time] = System.currentTimeMillis();
 					Stream.generate(() -> random.nextInt(SIZE)).limit(SIZE)
-						.forEach((j) -> arrayList.get(j));
+					.forEach((j) -> arrayList.get(j));
 					testTime[ARRAY][FIND][time] -= System.currentTimeMillis();
 				}));
 
@@ -63,21 +63,21 @@ public class Test0_7 {
 				(time) -> {
 					testTime[LINKED][FIND][time] = System.currentTimeMillis();
 					Stream.generate(() -> random.nextInt(SIZE)).limit(SIZE)
-						.forEach((j) -> linkedList.get(j));
+					.forEach((j) -> linkedList.get(j));
 					testTime[LINKED][FIND][time] -= System.currentTimeMillis();
 				}));
-		
+
 		arr.start(); link.start();
 		eachTestTime = System.currentTimeMillis();
 		arr.join(); link.join();
 		eachTestTime -= System.currentTimeMillis();
 		System.out.println(String.format("%6s TEST OVER %7dms", "FIND", -eachTestTime));
-		
+
 		arr = new Thread( () -> Stream.iterate(0, n -> n+1).limit(10).forEach(
 				(time) -> {
 					testTime[ARRAY][DELETE][time] = System.currentTimeMillis();
 					Stream.generate(() -> random.nextInt(arrayList.size())).limit(SIZE)
-						.forEach((j) -> arrayList.remove(j));
+					.forEach((j) -> arrayList.remove(j));
 					testTime[ARRAY][DELETE][time] -= System.currentTimeMillis();
 				}));
 
@@ -85,7 +85,7 @@ public class Test0_7 {
 				(time) -> {
 					testTime[LINKED][DELETE][time] = System.currentTimeMillis();
 					Stream.generate(() -> random.nextInt(linkedList.size())).limit(SIZE)
-						.forEach((j) -> linkedList.remove(j));
+					.forEach((j) -> linkedList.remove(j));
 					testTime[LINKED][DELETE][time] -= System.currentTimeMillis();
 				}));
 
@@ -94,10 +94,10 @@ public class Test0_7 {
 		arr.join(); link.join();
 		eachTestTime -= System.currentTimeMillis();
 		System.out.println(String.format("%6s TEST OVER %7dms", "DELETE", -eachTestTime));
-		
-		
+
+
 		System.out.println("\n\nTest SIZE: " + SIZE);
-		
+
 		int i = 0, j = 0;
 		for(String method : new String[] {"ADD", "FIND", "DELETE"}) {
 			j = 0;
@@ -113,3 +113,4 @@ public class Test0_7 {
 				.orElse(0) / arr.length;
 	}
 }
+
