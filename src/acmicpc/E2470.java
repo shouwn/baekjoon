@@ -24,7 +24,7 @@ public class E2470 {
 		}
 		
 		public void updateMin(int[] arr, int index) {
-			int idx = search(arr, - arr[index]); // 반대 되는 값 중 다음으로 큰 값을 찾음
+			int idx = search(arr, index, - arr[index]); // 반대 되는 값 중 다음으로 큰 값을 찾음
 
 			if(idx != arr.length && idx != index) // element 가 가장 큰 값일 경우를 위한 if문
 				this.updateMin(arr[idx], arr[index]);
@@ -44,8 +44,8 @@ public class E2470 {
 		}
 		
 		//return index
-		private static int search(int[] arr, int element) {
-			return search(arr, 0, arr.length - 1, element);
+		private static int search(int[] arr, int index, int element) {
+			return search(arr, index, arr.length - 1, element);
 		}
 		
 		private static int search(int[] arr, int start, int end, int element) {
