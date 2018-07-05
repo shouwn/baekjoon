@@ -18,19 +18,19 @@ public class E2470 {
 		
 		public void solve(int[] arr) {
 			Arrays.sort(arr);
-			
-			for(int e : arr)
-				this.updateMin(arr, e);
+			int lenght = arr.length;
+			for(int i = 0; i < lenght; i++)
+				this.updateMin(arr, i);
 		}
 		
-		public void updateMin(int[] arr, int element) {
-			int index = search(arr, -element); // 반대 되는 값 중 다음으로 큰 값을 찾음
+		public void updateMin(int[] arr, int index) {
+			int idx = search(arr, - arr[index]); // 반대 되는 값 중 다음으로 큰 값을 찾음
 
-			if(index != arr.length) // element 가 가장 큰 값일 경우를 위한 if문
-				this.updateMin(arr[index], element);
+			if(idx != arr.length && idx != index) // element 가 가장 큰 값일 경우를 위한 if문
+				this.updateMin(arr[idx], arr[index]);
 			
-			if(index != 0) // element 가 가장 작은 값일 경우를 위한 if문
-				this.updateMin(arr[index - 1], element);
+			if(idx != 0 && idx - 1 != index) // element 가 가장 작은 값일 경우를 위한 if문 2개만 있을 경우 왼쪽
+				this.updateMin(arr[idx - 1], arr[index]);
 		}
 		
 		private void updateMin(int e1, int e2) {
