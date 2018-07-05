@@ -12,6 +12,7 @@ public class E2470 {
 		private int min = Integer.MAX_VALUE;
 		
 		public int[] getAnswer() {
+			Arrays.sort(answer);
 			return this.answer;
 		}
 		
@@ -23,10 +24,7 @@ public class E2470 {
 		}
 		
 		public void updateMin(int[] arr, int element) {
-			System.out.println(-element);
 			int index = search(arr, -element); // 반대 되는 값 중 다음으로 큰 값을 찾음
-			System.out.println("end");
-			System.out.println(index);
 
 			if(index != arr.length) // element 가 가장 큰 값일 경우를 위한 if문
 				this.updateMin(arr[index], element);
@@ -42,26 +40,20 @@ public class E2470 {
 				this.min = diffAbs;
 				this.answer[0] = e1;
 				this.answer[1] = e2;
-
-				System.out.println(answer[0] + " " +  answer[1]);
 			}
 		}
 		
 		//return index
 		private static int search(int[] arr, int element) {
-			System.out.println("start");
 			return search(arr, 0, arr.length - 1, element);
 		}
 		
 		private static int search(int[] arr, int start, int end, int element) {
-			System.out.println(start + " " + end);
 			if(start > end)
 				return start; // 해당 값이 없으면 바로 다음 큰 값의 위치를 리턴
 			
 			int middle = (start + end) / 2;
 			int temp = arr[middle];
-			
-			System.out.println("temp: " + temp + " element:" + element);
 			
 			if(temp == element)
 				return middle;
@@ -88,5 +80,4 @@ public class E2470 {
 			System.out.println(answer[0] + " " +  answer[1]);
 		}
 	}
-
 }
