@@ -61,11 +61,11 @@ public class E2470 {
 			int middle = (start + end) / 2;
 			int temp = arr[middle];
 			
-			System.out.println("temp: " + temp);
+			System.out.println("temp: " + temp + " element:" + element);
 			
 			if(temp == element)
 				return middle;
-			else if(temp > element)
+			else if(temp < element)
 				return search(arr, middle + 1, end, element);
 			else
 				return search(arr, start, middle - 1, element);
