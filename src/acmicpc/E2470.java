@@ -1,9 +1,9 @@
 package acmicpc;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class E2470 {
 	
@@ -64,13 +64,16 @@ public class E2470 {
 		}
 	}
 	
-	public static void main(String[] args) {
-		try(Scanner scan = new Scanner(new BufferedReader(new InputStreamReader(System.in)))) {
-			int size = scan.nextInt();
+	public static void main(String[] args) throws IOException {
+		try(BufferedReader scan = new BufferedReader(new InputStreamReader(System.in))) {
+
+			int size = Integer.valueOf(scan.readLine());
 			
 			int[] arr = new int[size];
+			String[] input = scan.readLine().split(" ");
+			
 			for(int i = 0; i < size; i++)
-				arr[i] = scan.nextInt();
+				arr[i] = Integer.valueOf(input[i]);
 			
 			Solution solution = new Solution();
 			solution.solve(arr);
