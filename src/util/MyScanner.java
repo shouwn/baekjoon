@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class MyScanner<T> implements AutoCloseable{
 
-	//표준 입출력에서 마지막 끝을 나타내는 에러가 있음 잡기 바람
+	//Scanner 와 같이 사용 시 문제점이 있었음. Scanner가 buf를 해서 앞에 내용을 가져갔음
 
 	private BufferedReader reader;
 
