@@ -20,54 +20,28 @@ public class E2 {
 			
 			int n = Integer.valueOf(br.readLine());
 			
-			Pair[] arr = new Pair[n];
-			for(int i = 0; i < n; i++)
-				arr[i] = makePair(br);
-			
-			System.out.println(solution(arr));
+			System.out.println(solution(n, br));
 		}
 	}
-	
-	public static String solution(Pair[] arr) throws IOException {
-		Pair pre = arr[0];
-		Pair temp;
-		
-		int n = arr.length;
-		
-		for(int i = 1; i < n; i++) {
-			temp = arr[i];
-			
-			if(pre.big > temp.small)
-				return "YES";
-			
-			pre = temp;
-		}
-		
-		return "NO";
-	}
-
 	
 	public static String solution(int n, BufferedReader br) throws IOException {
-		Pair pre = makePair(br);
+		int pre = makePair(br).big;
 		Pair temp;
-		
-		boolean flag = true;
 		
 		n -= 1;
 		
 		for(int i = 0; i < n; i++) {
 			temp = makePair(br);
 			
-			if(pre.big > temp.small)
-				return "YES";
-			
-			if(pre.big != temp.small)
-				flag = false;
-			
-			pre = temp;
+			if(pre >= temp.big)
+				pre = temp.big;
+			else if(pre >= temp.small)
+				pre = temp.small;
+			else
+				return "NO";
 		}
 		
-		return (flag ? "YES" : "NO");
+		return "YES";
 	}
 	
 	public static Pair makePair(BufferedReader br) throws IOException {
