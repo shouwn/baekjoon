@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class MyScanner<T> implements AutoCloseable{
 
-	//Scanner 와 같이 사용 시 문제점이 있었음. Scanner가 buf를 해서 앞에 내용을 가져갔음
+	//Scanner 와 같이 사용 시 문제점이 있음. Scanner가 buffer를 해서 앞에 내용을 가져감
 
 	private BufferedReader reader;
 
