@@ -32,6 +32,7 @@ public class SystemInTest {
 			});
 			
 			int N = scan.nextInt();
+			//System.out.println(scan.nextInt());
 			
 			for(int i = 0; i < N; i++)
 				System.out.println(scan.next());

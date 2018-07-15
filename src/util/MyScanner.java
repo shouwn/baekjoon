@@ -16,6 +16,8 @@ public class MyScanner<T> implements AutoCloseable{
 	private Pattern integerPattern = Pattern.compile("([-+]?[0-9]+)");
 	private Pattern pattern;
 	private Matcher matcher;
+	
+	private Pattern currentPattern;
 
 	private Function<String, T> nexter;
 
@@ -31,8 +33,10 @@ public class MyScanner<T> implements AutoCloseable{
 	// 정규식에 해당하는 문자열이 있는지 확인하는 메소드
 	private boolean find(Pattern pattern){
 
-		if(matcher != null)
+		if(matcher != null && pattern != this.currentPattern) {
 			matcher.usePattern(pattern);
+			this.currentPattern = pattern;
+		}
 		
 		try {
 			while(this.matcher == null || !this.matcher.find()) {
