@@ -9,20 +9,19 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 
 public class Test1_4 {
-	
+
 	public static void main(String[] args) throws IOException {
-		
+
 		byte[] imageByte;
-		
-		String path = Test1_4.class.getResource("aws_logo_105x39.png").getPath();
-		
+
+		String path = Test1_4.class.getResource("images.jpg").getPath();
+
 		BufferedImage image = ImageIO.read(new File(path));
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(image, "png", baos);
+		ImageIO.write(image, "jpg", baos);
 		baos.flush();
-		
+
 		imageByte = baos.toByteArray();
 		System.out.println(Base64.getEncoder().encodeToString(imageByte));
-		
 	}
 }
