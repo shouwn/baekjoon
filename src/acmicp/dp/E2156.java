@@ -3,6 +3,7 @@ package acmicp.dp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class E2156 {
@@ -10,13 +11,7 @@ public class E2156 {
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             int[] wines = Stream.iterate(0, n -> n).limit(Integer.parseInt(br.readLine()))
-                    .map(n -> {
-                        try {
-                            return br.readLine();
-                        } catch (IOException e) {
-                            throw new RuntimeException();
-                        }
-                    })
+                    .map(CheckedFunction.wrap(n -> br.readLine()))
                     .mapToInt(Integer::parseInt)
                     .toArray();
 
@@ -42,5 +37,19 @@ public class E2156 {
         }
 
         return dp[wines.length - 1];
+    }
+
+    interface CheckedFunction<T, R> {
+        R apply(T t) throws Exception;
+
+        static <T, R> Function<T, R> wrap(CheckedFunction<T, R> function) throws RuntimeException {
+            return t -> {
+                try {
+                    return function.apply(t);
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+            };
+        }
     }
 }
