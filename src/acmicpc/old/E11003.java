@@ -1,12 +1,13 @@
 package acmicpc.old;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+/**
+ * 이 문제는 풀지 마세요.
+ */
 public class E11003 {
 	
 	public static void main(String[] args) throws IOException{
@@ -15,7 +16,7 @@ public class E11003 {
 		
 		int len, windowSize;
 		int[] arr;
-		
+
 		StringTokenizer st = new StringTokenizer(reader.readLine());
 		
 		len = Integer.parseInt(st.nextToken());
@@ -27,30 +28,30 @@ public class E11003 {
 		for(int i = 0; i < len; i++){
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
-		
-		printMin(arr, windowSize);
-		
-	}
-	
-	public static void printMin(int[] arr, int windowSize){
-		StringBuilder str = new StringBuilder();
-		
-		Deque<Integer> deque = new LinkedList<>();
-		
-		for(int i = 0; i < arr.length; i++){
+
+		int[] result = new int[len];
+
+		Deque<Integer> deque = new ArrayDeque<>();
+
+		for(int i = 0; i < len; i++){
 
 			while(!deque.isEmpty() && deque.peekFirst() <= i - windowSize)
 				deque.removeFirst();
-			
+
 			while(!deque.isEmpty() && arr[deque.peekLast()] >= arr[i])
 				deque.removeLast();
-			
-			deque.addLast(i);
-			
-			str.append(arr[deque.peekFirst()]).append(" ");
-		}
-		
-		System.out.println(str.toString());
-	}
 
+			deque.offer(i);
+
+			result[i] = arr[deque.peekFirst()];
+		}
+
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		for (int i = 0; i < len; i++) {
+			bw.write(result[i] + " ");
+		}
+		bw.flush();
+		bw.close();
+	}
 }
